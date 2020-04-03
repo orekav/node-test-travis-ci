@@ -1,0 +1,14 @@
+before_script:
+  - npm install
+script:
+  - npm test
+language: node_js
+env:
+	- PORT=8080
+node_js:
+  - "0"
+  - "4"
+  - "6"
+  - "8"
+  - "10"
+  - "12"
