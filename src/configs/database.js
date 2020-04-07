@@ -27,7 +27,7 @@ const config = {
 			encrypt: true,
 			requestTimeout: 30000
 		},
-		dialect: "mysql"
+		dialect: "mariadb"
 	}
 };
 
