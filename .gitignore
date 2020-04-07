@@ -102,3 +102,12 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Visual Studio Code directories
+.vscode/
+
+# NPM package-lock
+package-lock.json
+
+# SQLite3 Database
+*.sqlite3
