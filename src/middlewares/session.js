@@ -1,6 +1,6 @@
 const session = require("express-session");
 if (process.env.NODE_ENV === "test") {
-	module.exports = session({ name: "test", secret: "test" });
+	module.exports = session({ name: "test", secret: "test", resave: true, saveUninitialized: true });
 }
 else {
 	const sequelize = require("../models");
