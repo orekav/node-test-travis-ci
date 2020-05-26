@@ -8,5 +8,3 @@ const Customer = require("./customer");
 
 User.belongsTo(Customer);
 Customer.hasOne(User);
-
-sequelize.sync();

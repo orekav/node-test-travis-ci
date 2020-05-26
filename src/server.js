@@ -1,6 +1,12 @@
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
-
-const app = require("./app");
-
+const logger = require("./services/logger");
+const app = require("./app") 
 const port = process.env.PORT || 80;
-app.listen(port, () => console.log(`Server listening at port ${port}`));
+        
+require("./models")
+    .sync({force: false, logging: (msg) => logger.info(msg) })
+    .then(() => {
+        app
+            .listen(port, () => logger.info(`Server listening at port ${port}`));
+    })
+    .catch(error => logger.error(error.message));
