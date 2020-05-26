@@ -4,7 +4,7 @@ const { find, signUp, signIn, signOff, forgotPassword } = require("../controller
 const { isAuthenticated } = require("../middlewares/authentication");
 const { validateCaptcha } = require("../middlewares/captcha");
 
-router.get("/", find);
+router.get("/", isAuthenticated, find);
 router.post("/signUp", validateCaptcha, signUp);
 router.post("/signIn", validateCaptcha, signIn);
 router.post("/signOff", isAuthenticated, signOff);
