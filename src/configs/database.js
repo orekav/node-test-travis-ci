@@ -1,49 +1,63 @@
 const env = process.env.NODE_ENV || "development";
 
-const config = {
+const options = {
+	test: {
+		dialect: "sqlite",
+		storage: ":memory:",
+		logging: false,
+	},
 	development: {
 		username: process.env.DATABASE_USERNAME,
 		password: process.env.DATABASE_PASSWORD,
 		database: process.env.DATABASE_DATABASENAME,
 		host: process.env.DATABASE_HOST,
+		dialect: process.env.DATABASE_DIALECT,
 		logging: false,
 		pool: {
-			max: 50,
+			max: 10,
 			min: 1,
 			idle: 30000
 		},
 		dialectOptions: {
 			useUTC: false,
 			encrypt: true,
-			requestTimeout: 30000
+			requestTimeout: 30000,
+			ssl: {
+				required: true,
+				rejectUnauthorized: false,
+			},
 		},
-		dialect: "mariadb",
 		timezone: "GMT",
-	},
-	test: {
-		dialect: "sqlite",
-		storage: ":memory:",
-		logging: false,
 	},
 	production: {
 		username: process.env.DATABASE_USERNAME,
 		password: process.env.DATABASE_PASSWORD,
 		database: process.env.DATABASE_DATABASENAME,
 		host: process.env.DATABASE_HOST,
+		dialect: process.env.DATABASE_DIALECT,
 		logging: false,
 		pool: {
-			max: 50,
+			max: 10,
 			min: 1,
 			idle: 30000
 		},
 		dialectOptions: {
 			useUTC: false,
 			encrypt: true,
-			requestTimeout: 30000
+			requestTimeout: 30000,
+			ssl: {
+				required: true,
+				rejectUnauthorized: false,
+			},
 		},
-		dialect: "mariadb",
 		timezone: "GMT",
 	}
 };
 
-module.exports = config[env];
+if (process.env.DATABASE_URL)
+	module.exports = [
+		process.env.DATABASE_URL,
+		options[env],
+	];
+else
+	module.exports = [options[env]];
