@@ -1,14 +1,16 @@
 const request = require("request-promise");
 
 const validateCaptcha = async (req, res, next) => {
-	if (process.env.NODE_ENV === "test") return next();
+	if (process.env.NODE_ENV !== "production") return next();
 
 	const captcha = req.body["g-recaptcha-response"] || req.body.g_recaptcha_response;
 
 	// g-recaptcha-response is the key that browser will generate upon form submit.
 	// if its blank or null means user has not selected the captcha, so return the error.
 	if (captcha === undefined || captcha === "" || captcha === null)
-		return res.status(400).json({ message: "Please, verify that you are not a robot" });
+		return res
+			.status(400)
+			.json({ message: "Please, verify that you are not a robot" });
 
 	// Put your secret key here.
 	const secretKey = process.env.GOOGLE_CAPTCHA_API_SECRET_KEY;
@@ -21,7 +23,9 @@ const validateCaptcha = async (req, res, next) => {
 
 	// Success will be true or false depending upon captcha validation.
 	if (body.success !== undefined && !body.success)
-		return res.status(400).json({ message: "Captcha validation error" });
+		return res
+			.status(400)
+			.json({ message: "Captcha validation error" });
 
 	next();
 };
