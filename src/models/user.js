@@ -2,7 +2,7 @@ const { Model, DataTypes } = require("sequelize");
 const sequelize = require("./index");
 
 const bcrypt = require("bcrypt");
-const saltRounds = 10;
+const saltRounds = process.env.NODE_ENV === "production" ? 10 : 5;
 
 class User extends Model {
 	async generateHash(aPassword) { return await bcrypt.hash(aPassword, saltRounds); }
