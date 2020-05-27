@@ -1,12 +1,19 @@
-before_script:
-  - npm install
-script:
-  - npm test
 language: node_js
-env:
-  - NODE_ENV=test
 node_js:
   - "8"
   - "10"
   - "12"
   - "14"
+cache:
+  directories:
+    - node_modules
+services:
+  - "postgresql"
+before_script:
+  - npm install
+  - psql -c 'CREATE DATABASE node_test_travis;' -U postgres
+script:
+  - npm test
+env:
+  - NODE_ENV=test
+  - DATABASE_URL=postgres://postgres@localhost/node_test_travis
