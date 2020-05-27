@@ -1,4 +1,4 @@
-const request = require("request-promise");
+const request = require("got");
 
 const validateCaptcha = async (req, res, next) => {
 	if (process.env.NODE_ENV !== "production") return next();
@@ -18,14 +18,21 @@ const validateCaptcha = async (req, res, next) => {
 	// req.connection.remoteAddress will provide IP address of connected user.
 	const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`;
 
-	// Hitting GET request to the URL, Google will respond with success or error scenario.
-	const body = await request.post(verificationUrl, { json: true });
+	try {
 
-	// Success will be true or false depending upon captcha validation.
-	if (body.success !== undefined && !body.success)
+		// Hitting GET request to the URL, Google will respond with success or error scenario.
+		const { body } = await request.post(verificationUrl, { responseType: "json" });
+
+		// Success will be true or false depending upon captcha validation.
+		if (body.success !== undefined && !body.success)
+			return res
+				.status(400)
+				.json({ message: "Captcha validation error" });
+	} catch (error) {
 		return res
-			.status(400)
-			.json({ message: "Captcha validation error" });
+			.status(503)
+			.json({ message: "Couldn't validate captcha" });
+	}
 
 	next();
 };
