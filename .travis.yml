@@ -15,4 +15,4 @@ before_script:
 script:
   - npm test
 env:
-  - NODE_ENV=test DATABASE_URL=postgres://postgres@localhost/node_test_travis
+  - NODE_ENV=test DATABASE_URL=postgres://postgres@localhost/node_test_traviss
