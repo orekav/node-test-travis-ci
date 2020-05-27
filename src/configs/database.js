@@ -7,11 +7,12 @@ const options = {
 		logging: false,
 	},
 	development: {
+		dialect: process.env.DATABASE_DIALECT,
 		username: process.env.DATABASE_USERNAME,
 		password: process.env.DATABASE_PASSWORD,
-		database: process.env.DATABASE_DATABASENAME,
 		host: process.env.DATABASE_HOST,
-		dialect: process.env.DATABASE_DIALECT,
+		port: process.env.DATABASE_PORT,
+		database: process.env.DATABASE_DATABASENAME,
 		logging: false,
 		pool: {
 			max: 10,
@@ -30,11 +31,12 @@ const options = {
 		timezone: "GMT",
 	},
 	production: {
+		dialect: process.env.DATABASE_DIALECT,
 		username: process.env.DATABASE_USERNAME,
 		password: process.env.DATABASE_PASSWORD,
-		database: process.env.DATABASE_DATABASENAME,
 		host: process.env.DATABASE_HOST,
-		dialect: process.env.DATABASE_DIALECT,
+		port: process.env.DATABASE_PORT,
+		database: process.env.DATABASE_DATABASENAME,
 		logging: false,
 		pool: {
 			max: 10,

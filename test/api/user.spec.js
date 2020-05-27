@@ -12,7 +12,7 @@ describe("User Endpoints", function () {
 
 	it("Should create a new user", function (done) {
 		agent
-			.post("/api/user/signUp")
+			.post("/api/users/signUp")
 			.send({
 				firstName: "Nicolas",
 				lastName: "Vaquero",
