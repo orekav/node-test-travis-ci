@@ -4,9 +4,6 @@ node_js:
   - "10"
   - "12"
   - "14"
-cache:
-  directories:
-    - node_modules
 services:
   - "postgresql"
 before_script:
@@ -15,4 +12,7 @@ before_script:
 script:
   - npm test
 env:
-  - NODE_ENV=test DATABASE_URL=postgres://postgres@localhost/node_test_traviss
+  global:
+    - NODE_ENV=test
+  matrix:
+    - DATABASE_URL=postgres://postgres@localhost/node_test_travis
