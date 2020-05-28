@@ -30,7 +30,6 @@ const signUp = async (req, res, next) => {
 	catch (error) {
 		next(error);
 	}
-
 };
 
 const signIn = async (req, res, next) => {
@@ -46,15 +45,19 @@ const signIn = async (req, res, next) => {
 		});
 	if (anUser && await anUser.validPassword(password)) {
 		req.session.user = anUser;
-		res.json({ message: "valid", user: anUser });
+		res
+			.status(200)
+			.json({ message: "valid", user: anUser });
 	}
 	else {
-		res.json({ message: "Invalid username or password" });
+		res
+			.status(400)
+			.json({ message: "Invalid username or password" });
 	}
 };
 
 
-const signOff = async (req, res, next) => {
+const signOut = async (req, res, next) => {
 	await req.session.destroy();
 	res.redirect("/");
 };
@@ -68,10 +71,19 @@ const find = async (req, res, next) => {
 	res.json(users);
 };
 
+const me = async (req, res, next) => {
+	const user = await User.findOne({
+		where: { id: req.session.user.id },
+		include: [Customer],
+	});
+	res.json(user);
+};
+
 module.exports = {
 	signUp,
 	signIn,
-	signOff,
+	signOut,
 	forgotPassword,
 	find,
+	me,
 };

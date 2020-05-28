@@ -1,7 +1,13 @@
+require("./setup.spec");
 const Customer = require("../src/models/customer");
 const User = require("../src/models/user");
 
 describe("Dummy test suit", function () {
+	this.beforeAll(async () => {
+		const sequelize = require("../src/models");
+		await sequelize.sync({ force: true });
+	});
+
 	it("Should create a new user", async function () {
 		const newCustomer = await Customer.create(
 			{

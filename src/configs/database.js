@@ -1,5 +1,6 @@
 const env = process.env.NODE_ENV || "development";
 
+const databaseURL = process.env.DATABASE_URL;
 const databaseConnection = {
 	dialect: process.env.DATABASE_DIALECT,
 	username: process.env.DATABASE_USERNAME,
@@ -23,7 +24,7 @@ const poolConfig = {
 };
 
 const dialectOptions = {
-	useUTC: false,
+	useUTC: true,
 	encrypt: true,
 	requestTimeout: 30000,
 	ssl: sslConfig(),
@@ -39,9 +40,10 @@ const config = {
 
 const options = {
 	test: {
-		dialect: "sqlite",
-		storage: ":memory:",
-		logging: false,
+		...config,
+		dialect: config.dialect || databaseURL ? config.dialect : "sqlite",
+		timezone: config.dialect || databaseURL ? config.timezone : "+00:00",
+		// storage: config.storage || ":memory:",
 	},
 	development: {
 		...config,
@@ -51,9 +53,9 @@ const options = {
 	}
 };
 
-if (process.env.DATABASE_URL)
+if (databaseURL)
 	module.exports = [
-		process.env.DATABASE_URL,
+		databaseURL,
 		options[env],
 	];
 else

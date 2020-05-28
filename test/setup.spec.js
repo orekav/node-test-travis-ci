@@ -6,7 +6,7 @@ chai.should();
 
 const sequelize = require("../src/models/index");
 
-beforeEach(async () => {
+before(async () => {
 	await sequelize.sync({ force: true });
 });
 
